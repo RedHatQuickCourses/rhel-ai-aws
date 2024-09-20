@@ -1,6 +1,6 @@
 site:
-  title: FIXME Course Title
-  start_page: REPLACEREPONAME::index.adoc
+  title: Deploying Red Hat Enterprise Linux AI on AWS
+  start_page: rhel-ai-aws::index.adoc
 
 content:
   sources:
