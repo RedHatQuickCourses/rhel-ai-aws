@@ -43,7 +43,7 @@ $ subnet=<subnet-id>
 ----
 [root@ip-172-17-1-180 ~]# instance_name=rhel-ai-instance
 [root@ip-172-17-1-180 ~]# ami=ami-0fb016f0818c18903
-[root@ip-172-17-1-180 ~]# instance_type=p4d.24xlarge
+[root@ip-172-17-1-180 ~]# instance_type=g6.xlarge
 [root@ip-172-17-1-180 ~]# key_name=rhel9
 [root@ip-172-17-1-180 ~]# security_group=sg-075b15dc567c48d67
 [root@ip-172-17-1-180 ~]# disk_size=200
@@ -63,16 +63,6 @@ $ subnet=<subnet-id>
     --block-device-mappings DeviceName=/dev/sda1,Ebs='{VolumeSize='$disk_size'}' \
     --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value='$instance_name'}]'
 ----
-
-[NOTE]
-====
-If you encounter the following error:
-
-
-"An error occurred (VcpuLimitExceeded) when calling the RunInstances operation: You have requested more vCPU capacity than your current vCPU limit of 64 allows for the instance bucket that the specified instance type belongs to. Please visit http://aws.amazon.com/contact-us/ec2-request to request an adjustment to this limit."
-
-This indicates that your current vCPU limit needs to be increased. You will need to request a Service Quota increase by following the instructions provided in the link. This process may take up to 4 hours, after which you can proceed with creating the instance.
-====
 
 * The default user account in the RHEL AI AMI is _cloud-user_. It has all permissions via sudo without password.
 
