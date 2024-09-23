@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>What’s in this break-fix? :: Deploying Red Hat Enterprise Linux AI on AWS</title>
+    <title>Lab: Configuring VPC for the Lab Environment :: Deploying Red Hat Enterprise Linux AI on AWS</title>
     <link rel="prev" href="../LABENV/index.html">
     <link rel="next" href="section1.html">
     <meta name="generator" content="Antora 3.1.3">
@@ -40,7 +40,7 @@
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../index.html">Home</a>
+    <a class="nav-link" href="../index.html">Deploying RHEL AI on AWS</a>
   </li>
 </ul>
   </li>
@@ -54,23 +54,16 @@
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
   <li class="nav-item is-current-page" data-depth="1">
-    <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="index.html">What’s in this break-fix?</a>
-<ul class="nav-list">
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="section1.html">Break-fix activity</a>
+    <a class="nav-link" href="index.html">Lab: Configuring VPC for the Lab Environment</a>
   </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="section2.html">Check your work</a>
-  </li>
-</ul>
-  </li>
-</ul>
-  </li>
-  <li class="nav-item" data-depth="0">
-<ul class="nav-list">
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../appendix/appendix.html">Appendix</a>
+    <a class="nav-link" href="section1.html">Lab: Launch RHEL 9 AWS Instance</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="section2.html">Lab: Develop RHEL AI AMI on RHEL 9 AWS Instance</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="section3.html">Lab: Deploying RHEL AI instance on AWS using the CLI</a>
   </li>
 </ul>
   </li>
@@ -103,7 +96,7 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="../index.html">Deploying Red Hat Enterprise Linux AI on AWS</a></li>
-    <li><a href="index.html">What’s in this break-fix?</a></li>
+    <li><a href="index.html">Lab: Configuring VPC for the Lab Environment</a></li>
   </ul>
 </nav>
 </div>
@@ -112,50 +105,64 @@
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-<h1 class="page">What’s in this break-fix?</h1>
-<div class="sect1">
-<h2 id="_in_this_break_fix"><a class="anchor" href="#_in_this_break_fix"></a>In this break-fix:</h2>
-<div class="sectionbody">
+<h1 class="page">Lab: Configuring VPC for the Lab Environment</h1>
 <div class="paragraph">
-<p><strong>Type of issue:</strong></p>
-</div>
-<div class="paragraph">
-<p>FIXME: Describe an issue type/category that this specific issue falls into, like, "A Red Hat Enterprise Linux 7 system won&#8217;t boot after a kernel update." Save issue-specific details for the break-fix scenario page.</p>
-</div>
-<div class="paragraph">
-<p><strong>What you should already know:</strong></p>
-</div>
-<div class="paragraph">
-<p>FIXME: This training assumes that you are a Red Hat Certified System Administrator (RHCSA) or have equivalent experience administrating Red Hat Enterprise Linux 7 or 8. FIXME - update this as needed</p>
-</div>
-<div class="paragraph">
-<p><strong>How break-fix training works:</strong></p>
+<p>In this lab exercise, you will first configure a Virtual Private Cloud (VPC) to securely manage your network resources on AWS.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Challenge yourself in the break-fix activity. It describes a problem scenario that&#8217;s simulated in the lab environment where you can investigate and solve the problem.</p>
+<p>Access the AWS Lab Environment:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Log in to the newly created AWS lab environment using the provided credentials.</p>
+</li>
+</ul>
+</div>
 </li>
 <li>
-<p>Follow up with the guided solution:</p>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
+<p>Follow the Video Instructions:</p>
+<div class="videoblock text-center">
+<div class="content">
+<video src="_images/vpc_aws.mp4" width="640" height="480" controls>
+Your browser does not support the video tag.
+</video>
+</div>
+</div>
+<div class="ulist">
+<ul>
 <li>
-<p>If you weren&#8217;t able to solve the problem on your own, read and follow the instructions in the Guided Solution to complete this training.</p>
+<p>The video below contains detailed steps for creating a VPC, configuring two subnets (one public and one private), and setting up routing.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Watch and follow the video to:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Create a new VPC for isolating your lab environment.</p>
 </li>
 <li>
-<p>If you were successful in solving the problem, read the solution for useful tips you can apply when solving similar problems.</p>
+<p>Set up two subnets in different Availability Zones for redundancy.</p>
 </li>
-</ol>
+<li>
+<p>Configure a route table to manage traffic between the subnets and ensure internet access by attaching an Internet Gateway for the public subnet.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
 </div>
 </li>
 </ol>
-</div>
-</div>
 </div>
 <nav class="pagination">
   <span class="prev"><a href="../LABENV/index.html">Lab Environment</a></span>
-  <span class="next"><a href="section1.html">Break-fix activity</a></span>
+  <span class="next"><a href="section1.html">Lab: Launch RHEL 9 AWS Instance</a></span>
 </nav>
 </article>
   </div>
