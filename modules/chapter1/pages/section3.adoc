@@ -67,15 +67,53 @@ $ subnet=<subnet-id>
 * The default user account in the RHEL AI AMI is _cloud-user_. It has all permissions via sudo without password.
 
 * Take passwordless ssh of the instance using the public IP address and verify that your Red Hat Enterprise Linux AI tools are installed correctly. 
-. You need to run the ilab command:
+. You need to run the ilab command and notice the error.
 +
 [subs="+quotes,+macros"]
 ----
 $ ssh -i ~/Downloads/rhel9.pem cloud-user@3.147.72.110
-[cloud-user@ip-172-17-1-181 ~] $ ilab
-Example output
-$ ilab
-Usage: ilab [OPTIONS] COMMAND [ARGS]...
+[cloud-user@ip-172-17-1-31 ~]$ ilab
+This host is not connected to Red Hat Insights.
+
+To connect this host to Red Hat Insights run the following command:
+sudo rhc connect --organization <org_id> --activation-key <your_activation_key>
+
+To generate an Activation Key:
+https://console.redhat.com/insights/connector/activation-keys (this page will also display your Organization ID).
+
+For more information on Red Hat Insights, please visit:
+https://docs.redhat.com/en/documentation/subscription_central/1-latest/html/getting_started_with_activation_keys_on_the_hybrid_cloud_console/assembly-creating-managing-activation-keys
 ----
 
-* Congratulations! You have successfully deployed RHEL AI instance on AWS using customized RHEL AI AMI.
+* Resolve the error using your organization ID and activation key to register the system to the Red Hat Insights.
++
+[subs="+quotes,+macros"]
+----
+[cloud-user@ip-172-17-1-31 ~]$ sudo rhc connect --organization <your-organisation-id> --activation-key <your-activation-key>
+Connecting ip-172-17-1-31.us-east-2.compute.internal to Red Hat.
+This might take a few seconds.
+
+● Connected to Red Hat Subscription Management
+● Connected to Red Hat Insights
+● Activated the Remote Host Configuration daemon
+● Enabled console.redhat.com services: remote configuration, insights, remediations, compliance
+
+Successfully connected to Red Hat!
+
+Manage your connected systems: https://red.ht/connector
+----
+
+* Execute the ilab command and notice the InstructLab is executing successfully.
++
+[subs="+quotes,+macros"]
+----
+[cloud-user@ip-172-17-1-31 ~]$ ilab
+Usage: ilab [OPTIONS] COMMAND [ARGS]...
+
+  CLI for interacting with InstructLab.
+
+  If this is your first time running ilab, it's best to start with `ilab
+  config init` to create the environment.
+----
+
+* Congratulations! You have successfully deployed RHEL AI instance on AWS with built-in InstructLab using customized RHEL AI AMI.
