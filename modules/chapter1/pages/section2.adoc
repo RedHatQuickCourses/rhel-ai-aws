@@ -1,35 +1,164 @@
-= Check your work
+= Lab: Develop RHEL AI AMI on RHEL 9 AWS Instance
 
-== Follow below steps in the lab to check your work
+In this lab exercise, you'll build a customized RHEL AI AMI on the launched RHEL 9 AWS instance to streamline future deployments of RHEL AI cloud instance.
 
-FIXME: Add the instructions to be followed in the lab environment to make sure the problem has been resolved. You may chose to remove this block if grading script is provided in the lab to check the work.
-
-== Check your work using the grading script
-
-After you have resolved the issue and met the success criteria, login to `FIXME` system as `FIXME` user and run the grading script as shown here to check your work:
-
-[source,bash,role=execute]
+* Install _aws cli_ on newly launched RHEL 9 AWS instance.
+. Switch to __root__ user and download _awscli-exe_ file using the following command:
++
+[subs="+quotes,+macros"]
 ----
-break-fix-script grade
+[ec2-user@ip-172-17-1-180 ~]$ sudo su -
+[root@ip-172-17-1-180 ~]# curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 ----
 
-.Sample output
+. Install _zip_ package to _unzip_ the downloaded package.
++
+[subs="+quotes,+macros"]
 ----
-[root@classroom ~]# break-fix-script grade
-Initiating break-fix-script with option grade
-Grading.  Please wait.
-Success.
-COMPLETION CODE: <check your output for this value>
-Completed break-fix-script with option grade successfully
+[root@ip-172-17-1-180 ~]# yum install zip -y
 ----
 
-FIXME: Remove the below block if no grading script is provided to check the work in the break-fix activity. In this case make sure you use the above block to provide step-by-step instructions learner can follow to check their work.
+. Unzip the downloaded package.
++
+[subs="+quotes,+macros"]
+----
+[root@ip-172-17-1-180 ~]# unzip awscliv2.zip
+----
 
-== Submit the completion code
+. Install _aws cli_ using using the following command and confirm the installed _aws cli_ version:
++
+[subs="+quotes,+macros"]
+----
+[root@ip-172-17-1-180 ~]# sudo ./aws/install
+You can now run: /usr/local/bin/aws --version
 
-NOTE: Skip this if not applicable for you.
+[root@ip-172-17-1-180 ~]# aws --version
+aws-cli/2.17.56 Python/3.12.6 Linux/5.14.0-427.20.1.el9_4.x86_64 exe/x86_64.rhel.9
+----
 
-- For RedHat internal audience: Submit that completion code https://link-to-appropriate-lms.com[here,window=_blank] to receive a grade for this training
-- For RedHat partners: Submit that completion code https://link-to-appropriate-lms.com[here,window=_blank] to receive a grade for this training
+* Configure the _aws cli_
+. Set up your _AWS Access Key ID_, _Secret Access Key_, and define the instance region to ensure seamless interaction with your AWS environment.
++
+[subs="+quotes,+macros"]
+----
+[root@ip-172-17-1-180 ~]# aws configure
+AWS Access Key ID [None]: _your access key id_
+AWS Secret Access Key [None]: _your secret access key_
+Default region name [None]: _your vpc configured region name_
+Default output format [None]:
+----
 
-FIXME: Change the links in the above lines to the link for appropriate audience specific LMS where learner can provide completion code. Remove this block if submitting completion is not applicable.
+. Confirm the configured settings using the following command:
++
+[subs="+quotes,+macros"]
+----
+[root@ip-172-17-1-180 ~]# aws configure list
+----
+
+* Converting the RHEL AI image to an AWS AMI
+. Create the necessary environment variables by running the following commands. Replace the <custom_bucket_name> with a new name that has to be unique. Also on AWS, the DEFAULT_VOLUME_SIZE is measured GBs.
++
+[subs="+quotes,+macros"]
+----
+[root@ip-172-17-1-180 ~]# export BUCKET=<custom_bucket_name>
+[root@ip-172-17-1-180 ~]# export RAW_AMI=nvidia-bootc.ami
+[root@ip-172-17-1-180 ~]# export AMI_NAME="rhel-ai"
+[root@ip-172-17-1-180 ~]# export DEFAULT_VOLUME_SIZE=1000
+----
+
+. You can create an S3 bucket by running the following command:
++
+[subs="+quotes,+macros"]
+----
+[root@ip-172-17-1-180 ~]# aws s3 mb s3://$BUCKET
+make_bucket: <custom_bucket_name>
+----
+
+. You must create a trust-policy.json file with the necessary configurations for generating a S3 role for your bucket:
++
+[subs="+quotes,+macros"]
+----
+[root@ip-172-17-1-180 ~]# printf '{ "Version": "2012-10-17", "Statement": [ { "Effect": "Allow", "Principal": { "Service": "vmie.amazonaws.com" }, "Action": "sts:AssumeRole", "Condition": { "StringEquals":{ "sts:Externalid": "vmimport" } } } ] }' > trust-policy.json
+----
+
+. Create an S3 role for your bucket that you can name. In the following example command, _vmiport_ is the name of the role.
++
+[subs="+quotes,+macros"]
+----
+[root@ip-172-17-1-180 ~]# aws iam create-role --role-name vmimport --assume-role-policy-document file://trust-policy.json
+----
+
+. You must create a role-policy.json file with the necessary configurations for generating a policy for your bucket:
++
+[subs="+quotes,+macros"]
+----
+[root@ip-172-17-1-180 ~]# $ printf '{ "Version":"2012-10-17", "Statement":[ { "Effect":"Allow", "Action":[ "s3:GetBucketLocation", "s3:GetObject", "s3:ListBucket" ], "Resource":[ "arn:aws:s3:::%s", "arn:aws:s3:::%s/*" ] }, { "Effect":"Allow", "Action":[ "ec2:ModifySnapshotAttribute", "ec2:CopySnapshot", "ec2:RegisterImage", "ec2:Describe*" ], "Resource":"*" } ] }' $BUCKET $BUCKET > role-policy.json
+----
+
+. Create a policy for your bucket by running the following command:
++
+[subs="+quotes,+macros"]
+----
+[root@ip-172-17-1-180 ~]# aws iam put-role-policy --role-name vmimport --policy-name vmimport-$BUCKET --policy-document file://role-policy.json
+----
+
+* Now that your S3 bucket is set up, you need to download the RAW image from https://access.redhat.com/downloads/content/932/ver=1.1/rhel---9/1.1/x86_64/product-software[Red Hat Enterprise Linux AI download page].
+
+. Copy the **rhel-ai-nvidia-1.1-1725056698-x86_64.raw** RAW image link and add it to the following command. This steps can take around 3 to 4 hours approximately.
++
+[subs="+quotes,+macros"]
+----
+[root@ip-172-17-1-180 ~]# curl -Lo disk.raw <link-to-raw-file>
+----
+
+. Upload the image to the S3 bucket with the following command. This steps can take around 1 to 2 hours approximately.
++
+[subs="+quotes,+macros"]
+----
+[root@ip-172-17-1-180 ~]# aws s3 cp disk.raw s3://$BUCKET/$RAW_AMI
+----
+
+. Convert the image to a snapshot and store it in the task_id variable name by running the following commands:
++
+[subs="+quotes,+macros"]
+----
+[root@ip-172-17-1-180 ~]# printf '{ "Description": "my-image", "Format": "raw", "UserBucket": { "S3Bucket": "%s", "S3Key": "%s" } }' $BUCKET $RAW_AMI > containers.json
+[root@ip-172-17-1-180 ~]# task_id=$(aws ec2 import-snapshot --disk-container file://containers.json | jq -r .ImportTaskId)
+----
+
+. You can check the progress of the disk image to snapshot conversion job with the following command:
++
+[subs="+quotes,+macros"]
+----
+[root@ip-172-17-1-180 ~]# aws ec2 describe-import-snapshot-tasks --filters Name=task-state,Values=active
+----
+
+. Once the conversion job is complete, you can get the snapshot ID and store it in a variable called snapshot_id by running the following command:
++
+[subs="+quotes,+macros"]
+----
+[root@ip-172-17-1-180 ~]# snapshot_id=$(aws ec2 describe-snapshots | jq -r '.Snapshots[] | select(.Description | contains("'${task_id}'")) | .SnapshotId')
+----
+
+. Add a tag name to the snapshot, so it’s easier to identify, by running the following command:
++
+[subs="+quotes,+macros"]
+----
+[root@ip-172-17-1-180 ~]# aws ec2 create-tags --resources $snapshot_id --tags Key=Name,Value="$AMI_NAME"
+----
+
+. Register an AMI from the snapshot with the following command:
++
+[subs="+quotes,+macros"]
+----
+[root@ip-172-17-1-180 ~]# ami_id=$(aws ec2 register-image  \
+    --name "$AMI_NAME" \
+    --description "$AMI_NAME" \
+    --architecture x86_64 \
+    --root-device-name /dev/sda1 \
+    --block-device-mappings "DeviceName=/dev/sda1,Ebs={VolumeSize=${DEFAULT_VOLUME_SIZE},SnapshotId=${snapshot_id}}" \
+    --virtualization-type hvm \
+    --ena-support \
+    | jq -r .ImageId)
+----
+

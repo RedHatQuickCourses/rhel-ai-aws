@@ -1,15 +1,62 @@
-= Break-fix activity
+= Lab: Launch RHEL 9 AWS Instance
 
-This section presents a scenario based on a real customer issue.
+In this lab exercise, you'll set up an AWS RHEL 9 instance, to build a customized RHEL AI AMI to streamline future deployments of RHEL AI cloud instance.
 
-. Read the scenario and success criteria.
-. Follow any instructions provided for setting up your lab environment.
-. Resolve the issue as simulated in your lab environment.
-. After resolving the issue, run the grading script and submit the completion code as prompted.
+* Navigate to the _EC2_ dashboard in the AWS Management Console.
++
+image::0ec2.png[align="center"]
+
+* Launch a new instance:
+.. Click on the "Launch Instance" button.
++
+image::1launch.png[align="center"]
+
+* Configure instance settings:
+.. Enter "rhel9" as the instance name.
++
+image::2instance.png[align="center"]
+
+.. Select RHEL 9 AMI for this new instance:
++
+image::3ami.png[align="center"]
+
+.. Select "t3.large" as the instance type.
++
+image::4type.png[align="center"]
+
+.. Create and download SSH Key for passwordless access to the instance.
++
+image::5key.png[align="center"]
+
+.. Select the newly created VPC and subnet and enable to the _Auto-assign public IP_ option.
++
+image::6vpc.png[align="center"]
+
+.. Allow incoming traffic on port 22 (SSH) to enable secure access to your instance.
++
+image::7ssh.png[align="center"]
+
+.. Enter 100GB for storage size
++
+image::8storage.png[align="center"]
 
 
-**You must successfully complete this section to receive a passing grade for this module.**
+.. Review your instance settings, then click "Launch" to create your instance.
++
+image::9summary.png[align="center"]
 
+.. Once the instance is running, use the downloaded SSH key to connect to the instance via an SSH client.
+... Change the permission of downloaded ssh key to 600.
++
+[subs="+quotes,+macros"]
+----
+$ chmod 600 ~/Downloads/rhel9.pem
+----
 
-If you exhaust your experience and resources, and you're unable to solve the issue on your own, use the guided solution to step through one possible solution, with tips for addressing similar issues.
+... Take ssh of user **ec2-user** using the public IP address of the instance.
++
+[subs="+quotes,+macros"]
+----
+$ ssh -i ~/Downloads/rhel9.pem ec2-user@3.147.72.177
+----
 

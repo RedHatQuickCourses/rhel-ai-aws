@@ -1,3 +1,7 @@
 = Lab Environment
 
-FIXME: Instructions for accessing the lab environment on the Demo platform, for this hands-on based training.
+Provision the lab environment https://demo.redhat.com/catalog?search=AWS+Blank+Open+Environment&item=babylon-catalog-prod%2Fsandboxes-gpte.sandbox-open.prod[AWS Blank Open Environment] at https://demo.redhat.com/[demo.redhat.com].
+
+It can take upto 20 minutes to get the lab environment.
+
+This training includes detailed lab instructions for learners to follow.
