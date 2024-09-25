@@ -12,7 +12,7 @@ Before diving into this training, let’s consider the following scenario:
 * RHEL AI, deployed on an AWS instance, serves as the backbone for powerful AI-driven operations, providing the infrastructure needed to run AI workloads efficiently. 
 * However, deploying RHEL AI in the cloud requires creating a custom AMI, setting up the environment, and configuring AWS resources to ensure seamless performance.
 
-In this hands-on lab, you’ll take the reins, learning how to create a RHEL AI AMI image, upload it to an S3 bucket, and deploy it on AWS.
+In this hands-on lab, you’ll take the reins, learn how to create a RHEL AI AMI image, upload it to an S3 bucket, and deploy it on AWS.
 With each step, you’ll gain deeper insight into managing AI infrastructure in the cloud, from provisioning resources to configuring your instance for real-world AI tasks.
 
 By the end, you’ll be fully equipped to deploy AI platforms in cloud environments, making you a key player in the future of AI-driven cloud solutions.
@@ -25,13 +25,13 @@ The PTL team acknowledges the valuable contributions of the following Red Hat as
 
 == Classroom Environment
 
-Launch a https://demo.redhat.com/catalog?search=AWS+Blank+Open+Environment&item=babylon-catalog-prod%2Fsandboxes-gpte.sandbox-open.prod[AWS Blank Open Environment] to follow along this guided lab.
+Launch an https://demo.redhat.com/catalog?search=AWS+Blank+Open+Environment&item=babylon-catalog-prod%2Fsandboxes-gpte.sandbox-open.prod[AWS Blank Open Environment] to follow along with this guided lab.
 
-NOTE: This lab uses a GPU and has a higher cost than normal. Please use it economically and shut down or suspend after use.
+NOTE: This lab uses a GPU and has a higher cost than normal. Please use it economically and shut it down or suspend it after use.
 
 . Environment Specifications:
 .. 1 x RHEL 9.3 AWS instance with 100 GB storage and t3.large instance type
-.. 1 x RHEL AI instance with below configurations:
+.. 1 x RHEL AI instance with the below configurations:
 ... AWS p4 and p5 NVIDIA instances (Minimum Total GPU memory: 320GB (e.g., 4 GPUs @ 80GB memory each))
 ... Minimum 200GB of disk space for model storage
 

@@ -24,7 +24,7 @@ image::3ami.png[align="center"]
 +
 image::4type.png[align="center"]
 
-.. Create and download SSH Key for passwordless access to the instance.
+.. Create and download an SSH Key for passwordless access to the instance.
 +
 image::5key.png[align="center"]
 
@@ -36,7 +36,7 @@ image::6vpc.png[align="center"]
 +
 image::7ssh.png[align="center"]
 
-.. Enter 100GB for storage size
+.. Enter 100GB for storage size.
 +
 image::8storage.png[align="center"]
 
@@ -46,7 +46,7 @@ image::8storage.png[align="center"]
 image::9summary.png[align="center"]
 
 .. Once the instance is running, use the downloaded SSH key to connect to the instance via an SSH client.
-... Change the permission of downloaded ssh key to 600.
+... Change the permission of the downloaded ssh key to 600.
 +
 [subs="+quotes,+macros"]
 ----

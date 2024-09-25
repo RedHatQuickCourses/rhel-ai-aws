@@ -1,8 +1,8 @@
 = Lab: Deploying RHEL AI instance on AWS using the CLI
 
-In this lab exercise, deployment the RHEL AI cloud instance using the RHEL AI AMI built in previous lab.
+In this lab exercise, deployment of the RHEL AI cloud instance using the RHEL AI AMI built in the previous lab.
 
-* Populate environment variables for when you create the instance
+* Populate environment variables for when you create the instance.
 +
 [subs="+quotes,+macros"]
 ----
@@ -64,7 +64,7 @@ $ subnet=<subnet-id>
     --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value='$instance_name'}]'
 ----
 
-* The default user account in the RHEL AI AMI is _cloud-user_. It has all permissions via sudo without password.
+* The default user account in the RHEL AI AMI is _cloud-user_. It has all permissions via sudo without a password.
 
 * Take passwordless ssh of the instance using the public IP address and verify that your Red Hat Enterprise Linux AI tools are installed correctly. 
 . You need to run the ilab command and notice the error.
@@ -116,4 +116,4 @@ Usage: ilab [OPTIONS] COMMAND [ARGS]...
   config init` to create the environment.
 ----
 
-* Congratulations! You have successfully deployed RHEL AI instance on AWS with built-in InstructLab using customized RHEL AI AMI.
+* Congratulations! You have successfully deployed the RHEL AI instance on AWS with built-in InstructLab using customized RHEL AI AMI.
