@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Lab: Deploying RHEL AI instance on AWS using the CLI :: Deploying Red Hat Enterprise Linux AI on AWS</title>
+    <link rel="prev" href="section2.html">
+    <meta name="generator" content="Antora 3.1.3">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+    <script>var uiRootPath = '../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com" target="_blank"><img src="../../../_/img/redhat-logo.png" height="40px" alt="Red Hat"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="../../..">Deploying Red Hat Enterprise Linux AI on AWS</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/RedHatQuickCourses/rhel-ai-aws/issues" target="_blank">Report Issues</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="rhel-ai-aws" data-version="1">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">Deploying Red Hat Enterprise Linux AI on AWS</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">Deploying RHEL AI on AWS</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../LABENV/index.html">Lab Environment</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="index.html">Lab: Configuring VPC for the Lab Environment</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="section1.html">Lab: Launch RHEL 9 AWS Instance</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="section2.html">Lab: Develop RHEL AI AMI on RHEL 9 AWS Instance</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="section3.html">Lab: Deploying RHEL AI instance on AWS using the CLI</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Deploying Red Hat Enterprise Linux AI on AWS</span>
+    <span class="version">1</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../index.html">Deploying Red Hat Enterprise Linux AI on AWS</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">1</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">Deploying Red Hat Enterprise Linux AI on AWS</a></li>
+    <li><a href="section3.html">Lab: Deploying RHEL AI instance on AWS using the CLI</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Lab: Deploying RHEL AI instance on AWS using the CLI</h1>
+<div class="paragraph">
+<p>In this lab exercise, deployment of the RHEL AI cloud instance using the RHEL AI AMI built in the previous lab.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Populate environment variables for when you create the instance.</p>
+<div class="listingblock">
+<div class="content">
+<pre>$ instance_name=rhel-ai-instance
+$ ami=&lt;ami-id&gt;
+$ instance_type=&lt;instance-type-size&gt;
+$ key_name=&lt;key-pair-name&gt;
+$ security_group=&lt;sg-id&gt;
+$ disk_size=&lt;size-of-disk&gt;
+$ subnet=&lt;subnet-id&gt;</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>For various parameters, you need to gather the ID of the variable.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>To access the image ID, run the following command:</p>
+<div class="listingblock">
+<div class="content">
+<pre>[root@ip-172-17-1-180 ~]# aws ec2 describe-images --owners self</pre>
+</div>
+</div>
+</li>
+<li>
+<p>To access the security group ID, run the following command:</p>
+<div class="listingblock">
+<div class="content">
+<pre>[root@ip-172-17-1-180 ~]# aws ec2 describe-security-groups</pre>
+</div>
+</div>
+</li>
+<li>
+<p>To access the subnet ID, run the following command:</p>
+<div class="listingblock">
+<div class="content">
+<pre>[root@ip-172-17-1-180 ~]# aws ec2 describe-subnets</pre>
+</div>
+</div>
+<div class="olist lowerroman">
+<ol class="lowerroman" type="i">
+<li>
+<p>Example:</p>
+<div class="listingblock">
+<div class="content">
+<pre>[root@ip-172-17-1-180 ~]# instance_name=rhel-ai-instance
+[root@ip-172-17-1-180 ~]# ami=ami-0fb016f0818c18903
+[root@ip-172-17-1-180 ~]# instance_type=g6.xlarge
+[root@ip-172-17-1-180 ~]# key_name=rhel9
+[root@ip-172-17-1-180 ~]# security_group=sg-075b15dc567c48d67
+[root@ip-172-17-1-180 ~]# disk_size=200
+[root@ip-172-17-1-180 ~]# subnet=subnet-085a32c2ad7d2b8c3</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Create RHEL AI instance using the variables by running the following command:</p>
+<div class="listingblock">
+<div class="content">
+<pre>[root@ip-172-17-1-180 ~]# aws ec2 run-instances \
+    --image-id $ami \
+    --instance-type $instance_type \
+    --key-name $key_name \
+    --security-group-ids $security_group \
+    --subnet-id $subnet \
+    --block-device-mappings DeviceName=/dev/sda1,Ebs='{VolumeSize='$disk_size'}' \
+    --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value='$instance_name'}]'</pre>
+</div>
+</div>
+</li>
+<li>
+<p>The default user account in the RHEL AI AMI is <em>cloud-user</em>. It has all permissions via sudo without a password.</p>
+</li>
+<li>
+<p>Take passwordless ssh of the instance using the public IP address and verify that your Red Hat Enterprise Linux AI tools are installed correctly.</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>You need to run the ilab command and notice the error.</p>
+<div class="listingblock">
+<div class="content">
+<pre>$ ssh -i ~/Downloads/rhel9.pem cloud-user@3.147.72.110
+[cloud-user@ip-172-17-1-31 ~]$ ilab
+This host is not connected to Red Hat Insights.
+
+To connect this host to Red Hat Insights run the following command:
+sudo rhc connect --organization &lt;org_id&gt; --activation-key &lt;your_activation_key&gt;
+
+To generate an Activation Key:
+<a href="https://console.redhat.com/insights/connector/activation-keys" class="bare">https://console.redhat.com/insights/connector/activation-keys</a> (this page will also display your Organization ID).
+
+For more information on Red Hat Insights, please visit:
+<a href="https://docs.redhat.com/en/documentation/subscription_central/1-latest/html/getting_started_with_activation_keys_on_the_hybrid_cloud_console/assembly-creating-managing-activation-keys" class="bare">https://docs.redhat.com/en/documentation/subscription_central/1-latest/html/getting_started_with_activation_keys_on_the_hybrid_cloud_console/assembly-creating-managing-activation-keys</a></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Resolve the error using your organization ID and activation key to register the system to the Red Hat Insights.</p>
+<div class="listingblock">
+<div class="content">
+<pre>[cloud-user@ip-172-17-1-31 ~]$ sudo rhc connect --organization &lt;your-organisation-id&gt; --activation-key &lt;your-activation-key&gt;
+Connecting ip-172-17-1-31.us-east-2.compute.internal to Red Hat.
+This might take a few seconds.
+
+● Connected to Red Hat Subscription Management
+● Connected to Red Hat Insights
+● Activated the Remote Host Configuration daemon
+● Enabled console.redhat.com services: remote configuration, insights, remediations, compliance
+
+Successfully connected to Red Hat!
+
+Manage your connected systems: <a href="https://red.ht/connector" class="bare">https://red.ht/connector</a></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Execute the ilab command and notice the InstructLab is executing successfully.</p>
+<div class="listingblock">
+<div class="content">
+<pre>[cloud-user@ip-172-17-1-31 ~]$ ilab
+Usage: ilab [OPTIONS] COMMAND [ARGS]...
+
+  CLI for interacting with InstructLab.
+
+  If this is your first time running ilab, it's best to start with <code>ilab
+  config init</code> to create the environment.</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Congratulations! You have successfully deployed the RHEL AI instance on AWS with built-in InstructLab using customized RHEL AI AMI.</p>
+</li>
+</ul>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="section2.html">Lab: Develop RHEL AI AMI on RHEL 9 AWS Instance</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <img src="../../../_/img/rhl-logo-red.png" height="40px" alt="Red Hat"  href="https://redhat.com" >
+</footer><script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
