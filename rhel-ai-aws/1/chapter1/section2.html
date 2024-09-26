@@ -107,7 +107,7 @@
 <article class="doc">
 <h1 class="page">Lab: Develop RHEL AI AMI on RHEL 9 AWS Instance</h1>
 <div class="paragraph">
-<p>In this lab exercise, you&#8217;ll build a customized RHEL AI AMI on the launched RHEL 9 AWS instance to streamline future deployments of RHEL AI cloud instance.</p>
+<p>In this lab exercise, you&#8217;ll build a customized RHEL AI AMI on the launched RHEL 9 AWS instance to streamline future deployments of the RHEL AI cloud instance.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -246,7 +246,7 @@ make_bucket: &lt;custom_bucket_name&gt;</pre>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Copy the <strong>rhel-ai-nvidia-1.1-1725056698-x86_64.raw</strong> RAW image link and add it to the following command. This steps can take around 3 to 4 hours approximately.</p>
+<p>Copy the <strong>rhel-ai-nvidia-1.1-1725056698-x86_64.raw</strong> RAW image link and add it to the following command. This steps can take approximately 3 to 4 hours.</p>
 <div class="listingblock">
 <div class="content">
 <pre>[root@ip-172-17-1-180 ~]# curl -Lo disk.raw &lt;link-to-raw-file&gt;</pre>
@@ -254,7 +254,7 @@ make_bucket: &lt;custom_bucket_name&gt;</pre>
 </div>
 </li>
 <li>
-<p>Upload the image to the S3 bucket with the following command. This steps can take around 1 to 2 hours approximately.</p>
+<p>Upload the image to the S3 bucket with the following command. Theses steps can take approximately 1 to 2 hours.</p>
 <div class="listingblock">
 <div class="content">
 <pre>[root@ip-172-17-1-180 ~]# aws s3 cp disk.raw s3://$BUCKET/$RAW_AMI</pre>
