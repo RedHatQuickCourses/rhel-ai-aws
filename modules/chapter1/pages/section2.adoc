@@ -25,7 +25,7 @@ In this lab exercise, you'll build a customized RHEL AI AMI on the launched RHEL
 [root@ip-172-17-1-180 ~]# unzip awscliv2.zip
 ----
 
-. Install _aws cli_ using using the following command and confirm the installed _aws cli_ version:
+. Install _aws cli_ using using the following command and confirm the installed _aws cli_ version.
 +
 [subs="+quotes,+macros"]
 ----
@@ -35,6 +35,8 @@ You can now run: /usr/local/bin/aws --version
 [root@ip-172-17-1-180 ~]# aws --version
 aws-cli/2.17.56 Python/3.12.6 Linux/5.14.0-427.20.1.el9_4.x86_64 exe/x86_64.rhel.9
 ----
+
+. If you are not able to execute "aws" command, make sure the _PATH_ variable is set correctly to contain _/usr/local/bin/_ folder.
 
 * Configure the _aws cli_
 . Set up your _AWS Access Key ID_, _Secret Access Key_, and define the instance region to ensure seamless interaction with your AWS environment.
@@ -56,6 +58,7 @@ Default output format [None]:
 ----
 
 * Converting the RHEL AI image to an AWS AMI
+
 . Create the necessary environment variables by running the following commands. Replace the <custom_bucket_name> with a new name that has to be unique. Also on AWS, the DEFAULT_VOLUME_SIZE is measured GBs.
 +
 [subs="+quotes,+macros"]
@@ -65,6 +68,8 @@ Default output format [None]:
 [root@ip-172-17-1-180 ~]# export AMI_NAME="rhel-ai"
 [root@ip-172-17-1-180 ~]# export DEFAULT_VOLUME_SIZE=1000
 ----
++
+Please note that the bucket name in AWS must be unique globally. If the bucket name is not unique, AWS will throw an error, and you won't be able to create the bucket.
 
 . You can create an S3 bucket by running the following command:
 +
@@ -92,7 +97,7 @@ make_bucket: <custom_bucket_name>
 +
 [subs="+quotes,+macros"]
 ----
-[root@ip-172-17-1-180 ~]# $ printf '{ "Version":"2012-10-17", "Statement":[ { "Effect":"Allow", "Action":[ "s3:GetBucketLocation", "s3:GetObject", "s3:ListBucket" ], "Resource":[ "arn:aws:s3:::%s", "arn:aws:s3:::%s/*" ] }, { "Effect":"Allow", "Action":[ "ec2:ModifySnapshotAttribute", "ec2:CopySnapshot", "ec2:RegisterImage", "ec2:Describe*" ], "Resource":"*" } ] }' $BUCKET $BUCKET > role-policy.json
+[root@ip-172-17-1-180 ~]# printf '{ "Version":"2012-10-17", "Statement":[ { "Effect":"Allow", "Action":[ "s3:GetBucketLocation", "s3:GetObject", "s3:ListBucket" ], "Resource":[ "arn:aws:s3:::%s", "arn:aws:s3:::%s/*" ] }, { "Effect":"Allow", "Action":[ "ec2:ModifySnapshotAttribute", "ec2:CopySnapshot", "ec2:RegisterImage", "ec2:Describe*" ], "Resource":"*" } ] }' $BUCKET $BUCKET > role-policy.json
 ----
 
 . Create a policy for your bucket by running the following command:
@@ -108,7 +113,7 @@ make_bucket: <custom_bucket_name>
 +
 [subs="+quotes,+macros"]
 ----
-[root@ip-172-17-1-180 ~]# curl -Lo disk.raw <link-to-raw-file>
+[root@ip-172-17-1-180 ~]# curl -Lo disk.raw "<link-to-raw-file>"
 ----
 
 . Upload the image to the S3 bucket with the following command. Theses steps can take approximately 1 to 2 hours.

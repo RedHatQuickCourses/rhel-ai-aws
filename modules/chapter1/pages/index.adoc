@@ -6,9 +6,10 @@ In this lab exercise, you will first configure a Virtual Private Cloud (VPC) to 
 * Log in to the newly created AWS lab environment using the provided credentials.
 
 . Follow the Video Instructions:
+* The video contains detailed steps for creating a VPC, configuring two subnets (one public and one private), and setting up routing.
 +
 video::vpc_aws.mp4[align="center",width=640,height=480]
-* The video below contains detailed steps for creating a VPC, configuring two subnets (one public and one private), and setting up routing.
+
 ** Watch and follow the video to:
 *** Create a new VPC for isolating your lab environment.
 *** Set up two subnets in different Availability Zones for redundancy.

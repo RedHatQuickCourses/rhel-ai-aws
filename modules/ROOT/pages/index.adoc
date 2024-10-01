@@ -32,7 +32,7 @@ NOTE: This lab uses a GPU and has a higher cost than normal. Please use it econo
 . Environment Specifications:
 .. 1 x RHEL 9.3 AWS instance with 100 GB storage and t3.large instance type
 .. 1 x RHEL AI instance with the below configurations:
-... AWS p4 and p5 NVIDIA instances (Minimum Total GPU memory: 320GB (e.g., 4 GPUs @ 80GB memory each))
+... g6.xlarge for type of instances
 ... Minimum 200GB of disk space for model storage
 
 == Objectives
