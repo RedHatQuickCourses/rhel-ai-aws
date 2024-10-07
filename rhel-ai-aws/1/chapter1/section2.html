@@ -232,7 +232,7 @@ make_bucket: &lt;custom_bucket_name&gt;</pre>
 <p>You must create a role-policy.json file with the necessary configurations for generating a policy for your bucket:</p>
 <div class="listingblock">
 <div class="content">
-<pre>[root@ip-172-17-1-180 ~]# printf '{ "Version":"2012-10-17", "Statement":[ { "Effect":"Allow", "Action":[ "s3:GetBucketLocation", "s3:GetObject", "s3:ListBucket" ], "Resource":[ "arn:aws:s3:::%s", "arn:aws:s3:::%s/<strong>" ] }, { "Effect":"Allow", "Action":[ "ec2:ModifySnapshotAttribute", "ec2:CopySnapshot", "ec2:RegisterImage", "ec2:Describe</strong>" ], "Resource":"*" } ] }' $BUCKET $BUCKET &gt; role-policy.json</pre>
+<pre>[root@ip-172-17-1-180 ~]# printf '{ "Version":"2012-10-17", "Statement":[ { "Effect":"Allow", "Action":[ "s3:GetBucketLocation", "s3:GetObject", "s3:ListBucket" ], "Resource":[ "arn:aws:s3:::%s", "arn:aws:s3:::%s/*" ] }, { "Effect":"Allow", "Action":[ "ec2:ModifySnapshotAttribute", "ec2:CopySnapshot", "ec2:RegisterImage", "ec2:Describe\*" ], "Resource":"\*" } ] }' $BUCKET $BUCKET &gt; role-policy.json</pre>
 </div>
 </div>
 </li>
